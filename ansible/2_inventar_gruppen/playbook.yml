@@ -1,6 +1,6 @@
 ---
 - name: Install Nginx on Ubuntu
-  hosts: servers
+  hosts: server
   become: yes
   tasks:
     - name: Ensure Nginx is installed
