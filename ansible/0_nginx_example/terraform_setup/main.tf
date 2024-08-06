@@ -6,8 +6,8 @@ provider "aws" {
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = {
-    bucket = "23-10-bucket-beispiel"
-    key    = "vpc/vpc.tfstate"
+    bucket = "<bucket-name>" # Hier Bucketnamen eintragen
+    key    = "vpc/vpc.tfstate" # Eventuell Pfad anpassen
     region = "eu-central-1"
   }
 }
@@ -51,7 +51,7 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   subnet_id              = data.terraform_remote_state.vpc.outputs.public_subnet_id_1a # Nutzt ein öffentliches Subnetz
   vpc_security_group_ids = [aws_security_group.http.id]                                # Nutzt VPC-Security-Gruppen
-  key_name               = "tomschiffmann-ec2-sandbox"
+  key_name               = "<key-name>" # Key-Namen eintragen
 
   tags = {
     Name = "web-server"

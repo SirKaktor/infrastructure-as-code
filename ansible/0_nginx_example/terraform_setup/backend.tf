@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "23-10-bucket-beispiel" # Hier eigenen Bucket eintragen
-    key    = "ec2-example/ec2-example.tfstate"
+    bucket = "<bucket-name>" # Hier eigenen Bucket eintragen
+    key    = "ansible-nginx/ec2.tfstate"
     region = "eu-central-1"
   }
 }
