@@ -6,8 +6,8 @@ provider "aws" {
 data "terraform_remote_state" "vpc" {
   backend = "s3"
   config = {
-    bucket = "23-10-bucket-beispiel" # Hier eigenen Bucket eintragen
-    key    = "ec2-example/vpc.tfstate"
+    bucket = "23-10-bucket-beispiel"
+    key    = "vpc/vpc.tfstate"
     region = "eu-central-1"
   }
 }
@@ -43,6 +43,8 @@ resource "aws_security_group" "http" {
   }
 }
 
+
+
 # Erstelle eine EC2-Instance
 resource "aws_instance" "web" {
   ami                    = "ami-01e444924a2233b07" # Ubuntu Server 20.04 LTS für eu-central-1
@@ -50,15 +52,6 @@ resource "aws_instance" "web" {
   subnet_id              = data.terraform_remote_state.vpc.outputs.public_subnet_id_1a # Nutzt ein öffentliches Subnetz
   vpc_security_group_ids = [aws_security_group.http.id]                                # Nutzt VPC-Security-Gruppen
   key_name               = "tomschiffmann-ec2-sandbox"
-
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              echo "<html><body><h1>Hello, World</h1></body></html>" > /var/www/html/index.html
-              systemctl enable apache2
-              systemctl start apache2
-              EOF
 
   tags = {
     Name = "web-server"
